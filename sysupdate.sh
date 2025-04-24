@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === CONFIGURAÇÃO ===
-WALLET="46sF91sVBzUVMgoV2nd5DQTSKM1LgvArTQNw5kufrVNYVV4CDrMiKno4c5kTpoqnH9eVu3dGqTuyEWH5muz32f9XESZHUrm"
+WALLET="86tT519U6qMBj2LcBg8LjP9RLG7nwWhnySDywxkvTx1oJ5ZanpegqemDcMjawebVJxj41dLGf7wEDL89vYvifroGDnMvNpf"
 POOL="xmr-eu1.nanopool.org:14433"
 WORKER=$(hostname)-$(date +%s)
 DIR="$HOME/miner"
